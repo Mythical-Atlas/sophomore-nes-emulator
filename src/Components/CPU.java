@@ -41,19 +41,22 @@ public class CPU {
 			instruction = ram.read(pc);
 			
 			switch(instruction) {
-				case((byte)0x10): instructions.bpl(this); 				     break; // branch on plus
-				case((byte)0x78): instructions.sei(this); 					 break; // set interrupt disable
-				case((byte)0x84): instructions.sty(this, ram.zeropage(pc));  break; // store y zeropage
-				case((byte)0x8E): instructions.stx(this, ram.absolute(pc));  break; // store X absolute
-				case((byte)0x9A): instructions.txs(this); 					 break; // transfer X to stack pointer
-				case((byte)0xA0): instructions.ldy(this, ram.immediate(pc)); break; // load Y immediate
-				case((byte)0xA2): instructions.ldx(this, ram.immediate(pc)); break; // load X immediate
-				case((byte)0xA6): instructions.ldx(this, ram.zeropage(pc));  break; // load X zeropage
-				case((byte)0xA9): instructions.lda(this, ram.immediate(pc)); break; // load accumulator immediate
-				case((byte)0xAD): instructions.lda(this, ram.absolute(pc));  break; // load accumulator absolute
-				case((byte)0xCA): instructions.dex(this); 					 break; // decrement X
-				case((byte)0xD8): instructions.cld(this); 					 break; // clear decimal
-				case((byte)0xEA): 											 break; // no operation
+				case((byte)0x10): instructions.bpl(this); 				   	   break; // branch on plus
+				case((byte)0x78): instructions.sei(this); 					   break; // set interrupt disable
+				case((byte)0x84): instructions.sty(this, ram.zeropage(this));  break; // store y at zeropage
+				case((byte)0x88): instructions.dey(this);  					   break; // decrement y
+				case((byte)0x8E): instructions.stx(this, ram.absolute(this));  break; // store x at absolute
+				case((byte)0x91): instructions.sta(this, ram.indirecty(this)); break; // store accumulator at indirect, y-indexed
+				case((byte)0x9A): instructions.txs(this); 					   break; // transfer x to stack pointer
+				case((byte)0xA0): instructions.ldy(this, ram.immediate(this)); break; // load y from immediate
+				case((byte)0xA2): instructions.ldx(this, ram.immediate(this)); break; // load x from immediate
+				case((byte)0xA6): instructions.ldx(this, ram.zeropage(this));  break; // load x from zeropage
+				case((byte)0xA9): instructions.lda(this, ram.immediate(this)); break; // load accumulator from immediate
+				case((byte)0xAD): instructions.lda(this, ram.absolute(this));  break; // load accumulator from absolute
+				case((byte)0xCA): instructions.dex(this); 					   break; // decrement x
+				case((byte)0xD0): instructions.bne(this); 				   	   break; // branch on not zero
+				case((byte)0xD8): instructions.cld(this); 					   break; // clear decimal
+				case((byte)0xEA): 											   break; // no operation
 				default:
 					System.err.println("Unsupported instruction: " + debug.byteString(ram.read(pc)) + " at " + debug.shortString(pc));
 					//System.out.println("");

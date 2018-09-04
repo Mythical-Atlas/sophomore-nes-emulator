@@ -28,6 +28,7 @@ public class CPUFlags {
 	public void setOverflow(boolean value) {overflowFlag = value;}
 	public void setNegative(boolean value) {negativeFlag = value;}
 	
+	public boolean getZero() {return(zeroFlag);}
 	public boolean getNegative() {return(negativeFlag);}
 	
 	public byte getStatusByte() {

@@ -42,7 +42,7 @@ public class InstructionPane extends JPanel {
         
         gbc.gridx = 0;
         gbc.gridy = 3;
-        add(new JLabel("Cycles"), gbc);
+        add(new JLabel("Cycles: "), gbc);
         
         gbc.anchor = GridBagConstraints.EAST;
         

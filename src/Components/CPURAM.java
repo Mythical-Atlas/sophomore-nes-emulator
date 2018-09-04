@@ -34,26 +34,28 @@ public class CPURAM{
 	
 /*
 
-abs			....	absolute	 	OPC $LLHH	 	operand is address $HHLL *
+abs			....	absolute	 			OPC $LLHH	 	operand is address $HHLL *
 abs,X		....	absolute, X-indexed	 	OPC $LLHH,X	 	operand is address; effective address is address incremented by X with carry **
 abs,Y		....	absolute, Y-indexed	 	OPC $LLHH,Y	 	operand is address; effective address is address incremented by Y with carry **
-#			....	immediate	 	OPC #$BB	 	operand is byte BB
-ind			....	indirect	 	OPC ($LLHH)	 	operand is address; effective address is contents of word at address: C.w($HHLL)
+#			....	immediate	 			OPC #$BB	 	operand is byte BB
+ind			....	indirect	 			OPC ($LLHH)	 	operand is address; effective address is contents of word at address: C.w($HHLL)
 X,ind		....	X-indexed, indirect	 	OPC ($LL,X)	 	operand is zeropage address; effective address is word in (LL + X, LL + X + 1), inc. without carry: C.w($00LL + X)
 ind,Y		....	indirect, Y-indexed	 	OPC ($LL),Y	 	operand is zeropage address; effective address is word in (LL, LL + 1) incremented by Y with carry: C.w($00LL) + Y
-rel			....	relative	 	OPC $BB	 	branch target is PC + signed offset BB ***
-zpg			....	zeropage	 	OPC $LL	 	operand is zeropage address (hi-byte is zero, address = $00LL)
+rel			....	relative	 			OPC $BB	 		branch target is PC + signed offset BB ***
+zpg			....	zeropage	 			OPC $LL	 		operand is zeropage address (hi-byte is zero, address = $00LL)
 zpg,X		....	zeropage, X-indexed	 	OPC $LL,X	 	operand is zeropage address; effective address is address incremented by X without carry **
 zpg,Y		....	zeropage, Y-indexed	 	OPC $LL,Y	 	operand is zeropage address; effective address is address incremented by Y without carry **
 
 */
 	
-	public short absolute(CPU cpu) {return((short)(read(cpu.pc + 1) + (read(cpu.pc + 2) << 8)));}
+	public short absolute(CPU cpu)  {return((short)(read(cpu.pc + 1) + (read(cpu.pc + 2) << 8)));}
+	public short absolutex(CPU cpu) {return((short)(read(cpu.pc + 1) + (read(cpu.pc + 2) << 8) + cpu.x));}
+	public short absolutey(CPU cpu) {return((short)(read(cpu.pc + 1) + (read(cpu.pc + 2) << 8) + cpu.y));}
 	public short immediate(CPU cpu) {return((short)(cpu.pc + 1));}
-	public short indirect(CPU cpu) {return((short)read(cpu.pc + 1));}
+	public short indirect(CPU cpu)  {return((short)read(cpu.pc + 1));}
 	public short xindirect(CPU cpu) {return((short)read(cpu.pc + 1 + cpu.x));}
 	public short indirecty(CPU cpu) {return((short)(read(cpu.pc + 1) + cpu.y));}
-	public short zeropage(CPU cpu) {return((short)read(cpu.pc + 1));}
+	public short zeropage(CPU cpu)  {return((short)read(cpu.pc + 1));}
 	public short zeropagex(CPU cpu) {return((short)((read(cpu.pc + 1) & 0xFF00) + (read(cpu.pc + 1) + cpu.x) & 0xFF));}
 	public short zeropagey(CPU cpu) {return((short)((read(cpu.pc + 1) & 0xFF00) + (read(cpu.pc + 1) + cpu.y) & 0xFF));}
 }

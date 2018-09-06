@@ -72,6 +72,8 @@ public class CPU {
 					break;
 			}
 			
+			main.tracePane.values.addElement("Boi");
+			
 			if(run) {
 				cycles += instructions.cycles[instruction & 0xFF]; // & 0xFF necessary to prevent negative int
 				pc += instructions.bytes[instruction & 0xFF];

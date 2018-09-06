@@ -1,7 +1,6 @@
 package Main;
 
 import Components.CPU;
-import Main.Debug.debug;
 
 public class Instructions {
 	public int[] bytes;

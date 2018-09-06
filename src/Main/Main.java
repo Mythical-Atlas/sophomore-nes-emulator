@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import Components.Motherboard;
 import Main.Debug.debug;
@@ -24,6 +25,7 @@ import Panels.IRQPane;
 import Panels.InstructionPane;
 import Panels.RegisterPane;
 import Panels.TimingPane;
+import Panels.TracePane;
 
 @SuppressWarnings("serial")
 public class Main extends JPanel implements KeyListener, Runnable {
@@ -37,6 +39,7 @@ public class Main extends JPanel implements KeyListener, Runnable {
 	public IRQPane irqPane;
 	public FlagsPane flagsPane;
 	public InstructionPane instructionPane;
+	public TracePane tracePane;
 	JPanel nesPane;
 	
 	static byte[] rom;
@@ -91,8 +94,12 @@ public class Main extends JPanel implements KeyListener, Runnable {
         irqPane = new IRQPane();
         flagsPane = new FlagsPane();
         instructionPane = new InstructionPane();
+        tracePane = new TracePane();
+        
+        //JScrollPane scroll = new JScrollPane(tracePane);
         
         nesPane.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+        tracePane.setPreferredSize(new Dimension(256, 240));
         
         gbc.weightx = 0;
         gbc.weighty = 0;
@@ -104,6 +111,7 @@ public class Main extends JPanel implements KeyListener, Runnable {
         addPane(flagsPane, 	 	 0, 3, 2, 1, GridBagConstraints.HORIZONTAL);
         addPane(instructionPane, 0, 4, 1, 1, GridBagConstraints.HORIZONTAL);
         addPane(nesPane,	 	 2, 0, 1, 8, GridBagConstraints.NONE);
+        addPane(tracePane,		 3, 0, 1, 8, GridBagConstraints.NONE);
         
         controlsPane.resetButton.setEnabled(false);
 	}
@@ -160,6 +168,15 @@ public class Main extends JPanel implements KeyListener, Runnable {
 	public void mouseReleased(MouseEvent mouse) {motherboard.mouseReleased(mouse);}
 	
 	void addPane(JPanel pane, int x, int y, int w, int h, int fill) {
+		gbc.gridx = x;
+        gbc.gridy = y;
+		gbc.gridwidth = w;
+		gbc.gridheight = h;
+        gbc.fill = fill;
+        
+        this.add(pane, gbc);
+	}
+	void addPane(JScrollPane pane, int x, int y, int w, int h, int fill) {
 		gbc.gridx = x;
         gbc.gridy = y;
 		gbc.gridwidth = w;
